@@ -1,0 +1,40 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.tree import DecisionTreeClassifier
+
+# Rainfall dataset
+rainfall = [799, 1174.8, 865.1, 1334.6, 635.4, 918.5, 685.5, 998.6, 784.2, 985, 882.8, 1071]
+
+# Generate monthly date range for 2012
+dates = pd.date_range(start="2012-01-01", periods=12, freq="ME")
+
+# Convert rainfall data into a time series
+rainfall_series = pd.Series(rainfall, index=dates)
+
+# Convert data into 2D array for classification
+X = np.array(rainfall).reshape(-1, 1)
+
+# Create class labels using np.where()
+# 0 = Low (<800), 1 = Medium (800-999), 2 = High (>=1000)
+y = np.where(X < 800, 0,
+             np.where(X < 1000, 1, 2)).ravel()
+
+# Apply Decision Tree Classification algorithm
+model = DecisionTreeClassifier()
+model.fit(X, y)
+
+# Classification happens here
+print("Classification done")
+
+# Plot rainfall time series
+plt.plot(rainfall_series)
+plt.title("Monthly Rainfall - 2012")
+plt.xlabel("Month")
+plt.ylabel("Rainfall (mm)")
+
+# Save and display the graph
+plt.savefig("rainfall.png")
+plt.show()
+

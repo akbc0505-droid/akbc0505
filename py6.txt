@@ -1,0 +1,41 @@
+import numpy as np 
+import matplotlib.pyplot as plt 
+import pandas as pd 
+ 
+from sklearn.linear_model import LogisticRegression 
+from sklearn.metrics import classification_report 
+from pydataset import data 
+ 
+# Load dataset 
+mtcars = data('mtcars') 
+ 
+# Select required columns 
+input_data = mtcars[['am', 'cyl', 'hp', 'wt']] 
+print(input_data.head()) 
+ 
+# Define independent and dependent variables 
+X = input_data[['cyl', 'hp', 'wt']] 
+y = input_data['am'] 
+ 
+# Build logistic regression model 
+log_model = LogisticRegression() 
+log_model.fit(X, y) 
+ 
+# Print coefficients 
+print("Intercept:", log_model.intercept_) 
+print("Coefficients:", log_model.coef_) 
+# Predict 
+y_pred = log_model.predict(X) 
+# Classification report 
+print(classification_report(y, y_pred)) 
+# Plot using wt only 
+X1 = input_data[['wt']] 
+model2 = LogisticRegression() 
+model2.fit(X1, y) 
+plt.scatter(X1, y) 
+x_test = np.linspace(X1.min(), X1.max(), 100).reshape(-1, 1) 
+plt.plot(x_test, model2.predict_proba(x_test)[:, 1]) 
+plt.xlabel("Weight") 
+plt.ylabel("Transmission (am)") 
+plt.title("Logistic Regression Curve") 
+plt.show()

@@ -1,0 +1,25 @@
+import pandas as pd 
+# Read CSV file 
+data = pd.read_csv("sales.csv") 
+print("Data from CSV file:") 
+print(data) 
+# Basic information 
+print("\nBasic Information:") 
+print(data.info()) 
+# Statistical summary 
+print("\nStatistical Summary:") 
+print(data.describe()) 
+# Calculated insights (from the same table) 
+total_sales = data["Sales"].sum() 
+average_sales = data["Sales"].mean() 
+highest_sales = data["Sales"].max() 
+lowest_sales = data["Sales"].min() 
+print("\nInsights:") 
+print("Total Sales:", total_sales) 
+print("Average Sales:", average_sales) 
+print("Highest Sales:", highest_sales) 
+print("Lowest Sales:", lowest_sales) 
+# Category-wise sales (still same table, just grouped) 
+category_sales = data.groupby("Category")["Sales"].sum() 
+print("\nCategory-wise Sales:") 
+print(category_sales) 

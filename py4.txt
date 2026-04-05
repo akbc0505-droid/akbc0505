@@ -1,0 +1,31 @@
+import pandas as pd 
+import matplotlib.pyplot as plt 
+from sklearn.datasets import load_iris 
+from sklearn.cluster import KMeans 
+from sklearn.preprocessing import StandardScaler 
+from sklearn.metrics import silhouette_score 
+# 1. Load Dataset 
+iris = load_iris() 
+X = pd.DataFrame(iris.data, columns=iris.feature_names) 
+# 2. Feature Scaling (important for clustering) 
+scaler = StandardScaler() 
+X_scaled = scaler.fit_transform(X) 
+# 3. Apply K-Means Clustering 
+kmeans = KMeans(n_clusters=3, random_state=42) 
+kmeans.fit(X_scaled) 
+# 4. Get Cluster Labels 
+clusters = kmeans.labels_ 
+# 5. Evaluate Clustering 
+sil_score = silhouette_score(X_scaled, clusters) 
+print("Silhouette Score:", sil_score) 
+# 6. Add Clusters to DataFrame 
+X['Cluster'] = clusters 
+print(X.head()) 
+# 7. Visualize Clusters (2D using first two features) 
+plt.figure(figsize=(8,6)) 
+plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=clusters, cmap='viridis') 
+plt.title("K-Means Clustering (Iris Dataset)") 
+plt.xlabel("Feature 1") 
+plt.ylabel("Feature 2") 
+plt.colorbar(label='Cluster') 
+plt.show()
