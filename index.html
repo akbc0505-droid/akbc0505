@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reddit</title>
+<title>Downloads</title>
 
 <style>
 body{
@@ -31,7 +31,7 @@ h2{
 }
 
 .glow-btn{
-  width:90px;
+  width:100px;
   height:80px;
   border:none;
   border-radius:15px;
@@ -64,43 +64,37 @@ h2{
 
 <body>
 
-<!-- 💻 CODE FILES -->
+<!-- 📦 ZIP FILES -->
 
-<h2>💻 Code Practicals</h2>
+<h2>📦 Practical Files</h2>
 <div class="button-container">
 
-<button class="glow-btn" data-type="copy" data-file="PY3.txt">P3</button> <button class="glow-btn" data-type="copy" data-file="py4.txt">P4</button> <button class="glow-btn" data-type="copy" data-file="py5.txt">P5</button> <button class="glow-btn" data-type="copy" data-file="py6.txt">P6</button> <button class="glow-btn" data-type="copy" data-file="py7.txt">P7 Code</button> <button class="glow-btn" data-type="copy" data-file="Py8a.py">P8A</button>
+<button class="glow-btn" data-file="prac-1abc.qgz.zip">P1</button> <button class="glow-btn" data-file="prac-1d.qgz.zip">P1D</button> <button class="glow-btn" data-file="prac3-a.qgz.zip">P3</button> <button class="glow-btn" data-file="prac5.qgz.zip">P5</button> <button class="glow-btn" data-file="prac-7.qgz.zip">P7</button> <button class="glow-btn" data-file="prac-7b.qgz.zip">P7B</button>
 
 </div>
 
-<!-- 📊 CSV FILE -->
+<!-- 📊 CSV -->
 
-<h2>📊 CSV Data</h2>
+<h2>📊 CSV</h2>
 <div class="button-container">
-
-<button class="glow-btn" data-type="download" data-file="Sales.csv">P7 CSV</button>
-
+<button class="glow-btn" data-file="Sales.csv">CSV</button>
 </div>
 
-<!-- 📄 PDF FILE -->
+<!-- 📄 PDF -->
 
 <h2>📄 PDF</h2>
 <div class="button-container">
-
-<button class="glow-btn" data-type="download" data-file="BIDoc.pdf">PDF</button>
-
+<button class="glow-btn" data-file="BIDoc.pdf">PDF</button>
 </div>
 
-<!-- 📝 WORD FILE -->
+<!-- 📝 DOC -->
 
 <h2>📝 Word File</h2>
 <div class="button-container">
-
-<button class="glow-btn" data-type="download" data-file="PRACTICAL NO 03.docx">DOC</button>
-
+<button class="glow-btn" data-file="PRACTICAL_NO_03.docx">DOC</button>
 </div>
 
-<div id="toast">Done</div>
+<div id="toast">Downloading...</div>
 
 <script>
 
@@ -109,45 +103,18 @@ const toast = document.getElementById("toast");
 
 buttons.forEach(button => {
 
-  button.addEventListener("click", async () => {
+  button.addEventListener("click", () => {
 
     const file = button.dataset.file;
-    const type = button.dataset.type;
 
-    try{
+    const link = document.createElement("a");
+    link.href = file;
+    link.download = file;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-      if(type === "copy"){
-
-        const response = await fetch(file);
-
-        if(!response.ok){
-          throw new Error("File not found");
-        }
-
-        const text = await response.text();
-        await navigator.clipboard.writeText(text);
-
-        showToast("Copied 👍");
-
-      }
-
-      if(type === "download"){
-
-        const link = document.createElement("a");
-        link.href = file;
-        link.download = file;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        showToast("Downloading ⬇");
-
-      }
-
-    }catch(error){
-      console.error(error);
-      showToast("Error ❌");
-    }
+    showToast("Downloading ⬇");
 
   });
 
